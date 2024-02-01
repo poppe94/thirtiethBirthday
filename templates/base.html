@@ -1,0 +1,33 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>My test page</title>
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">#}
+{#    <link rel="stylesheet" href="{% static 'css/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css' %}">#}
+  </head>
+  {% block body %}
+      <body>
+        <div class="col-lg-8 mx-auto p-4 py-md-5">
+          <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+            <a href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
+              <span class="fs-4">Test Page</span>
+            </a>
+          </header>
+
+          <main>
+                {% block content %}
+                {% endblock content %}
+          </main>
+
+          <footer class="pt-5 my-5 text-body-secondary border-top">
+          </footer>
+        </div>
+
+{#        <script type="text/javascript" src="{% static "js/bootstrap/bootstrap.bundle.min.js" %}"></script>#}
+        {% block js_scripts %}
+        {% endblock js_scripts %}
+      </body>
+  {% endblock body %}
+</html>
