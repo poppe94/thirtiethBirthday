@@ -6,9 +6,7 @@ settings_paths.py
 /thumbnail_kvstore.lock
 /search_index/
 /.idea/
-/media/
 /node_modules/
 /save/
-/static/
 .DS_Store
 /db.sqlite3
