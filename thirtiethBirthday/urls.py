@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic.base import TemplateView
+
+handler403 = "thirtiethBirthday.views.permission_denied_view"
+# handler500 = "thirtiethBirthday.views.permission_denied_view"
 
 urlpatterns = [
+    path(r'', TemplateView.as_view(template_name='index.html'), name="home"),
     path('admin/', admin.site.urls),
     path('invitation/', include('invitation_manager.urls')),
 ]

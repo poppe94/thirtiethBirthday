@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -16,12 +17,11 @@ image_file_view = login_required(
 )
 
 
-def index(request, link_identifier):
+def invitation(request, link_identifier):
     try:
         guest = Guest.objects.get(link_identifier=link_identifier)
     except Guest.DoesNotExist:
-        # todo redirect to fail state or render feil page
-        return render(request, "invitation_manager/link_id_test.html", context={})
+        return HttpResponseForbidden()
 
     login(request, guest.user)
     try:

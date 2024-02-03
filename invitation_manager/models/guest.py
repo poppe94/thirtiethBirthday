@@ -1,12 +1,11 @@
 import random
 import string
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.db import models
 
 from invitation_manager import constants
 
-User = get_user_model()
 # Create your models here.
 
 
@@ -33,6 +32,15 @@ class Guest(GuestInfo):
     class Meta:
         verbose_name = "Gast"
         verbose_name_plural = "Gäste"
+
+    def __str__(self):
+        if self.display_name:
+            if self.display_name != self.user.username:
+                return f"{self.display_name} ({self.user.username})"
+            else:
+                return self.display_name
+
+        return self.user.username
 
     def _set_link_identifier(self):
         while not self.link_identifier:
