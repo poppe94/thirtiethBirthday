@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 from .forms.admin import GuestAdminForm
 from .models.content import Content, ImageFile
@@ -13,8 +14,8 @@ class EntourageInline(admin.TabularInline):
 
 class GuestAdmin(admin.ModelAdmin):
     inlines = [EntourageInline]
-    readonly_fields = ['link_identifier']
-    exclude = ['user']
+    readonly_fields = ['link_identifier_url']
+    exclude = ['user', 'link_identifier']
     form = GuestAdminForm
 
     def save_model(self, request, obj, form, change):
@@ -23,6 +24,9 @@ class GuestAdmin(admin.ModelAdmin):
             obj.user = new_user
 
         super(GuestAdmin, self).save_model(request, obj, form, change)
+
+    def link_identifier_url(self, obj):
+        return reverse("link-identifier-auth", args=(obj.link_identifier,))
 
 
 class ImageFileInline(admin.TabularInline):
