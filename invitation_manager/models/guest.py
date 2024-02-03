@@ -4,7 +4,7 @@ import string
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from . import constants
+from invitation_manager import constants
 
 User = get_user_model()
 # Create your models here.
@@ -28,7 +28,7 @@ class Guest(GuestInfo):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     link_identifier = models.CharField(max_length=128, unique=True, blank=True, editable=False)
 
-    visited = models.BooleanField(default=False)
+    visited = models.BooleanField(default=False)  # needed?
 
     class Meta:
         verbose_name = "Gast"

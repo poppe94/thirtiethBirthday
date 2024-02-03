@@ -7,5 +7,9 @@
     {% if auth %}
         <p>Auth</p>
     {% endif %}
+    {% for image in content.images.all %}
+        <img src="{% url "image-file-view" image.pk %}"
+             alt="" />
+    {% endfor %}
 
 {% endblock content %}
