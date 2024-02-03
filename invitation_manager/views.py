@@ -1,5 +1,5 @@
 from django.http import HttpResponseForbidden
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 
@@ -17,43 +17,41 @@ image_file_view = login_required(
 )
 
 
-def invitation(request, link_identifier):
+def link_identifier_auth(request, link_identifier):
     try:
         guest = Guest.objects.get(link_identifier=link_identifier)
     except Guest.DoesNotExist:
         return HttpResponseForbidden()
 
     login(request, guest.user)
+
+    return redirect("invitation")
+
+
+@login_required(redirect_field_name=None)
+def invitation(request):
     try:
         content = Content.objects.latest('id')
     except Content.DoesNotExist:
         content = None
 
     context = {
-        "link_identifier": link_identifier,
         "content": content,
     }
 
-    return render(request, "invitation_manager/link_id_test.html", context=context)
-
-
-@login_required(redirect_field_name=None)
-def test_auth(request):
-    return render(request, "invitation_manager/link_id_test.html", context={"auth": True})
-
+    return render(request, "invitation_manager/register.html", context=context)
 
 
 """
 
 todo:
-  - implement resume template
+  - implement resumee template
 
   - vertical carousel ? 
     - https://stackoverflow.com/questions/70922609/vertical-carousel-in-bootstrap-5
     - https://stackoverflow.com/questions/31561800/scroll-image-continuously-in-html-bootstrap
   - new mode for location address coords? etc, to not make it public on github
-  - field for guest to enter some notes
-  - admin should set user automatically
+
   - display invite link on changelist 
 
 """
