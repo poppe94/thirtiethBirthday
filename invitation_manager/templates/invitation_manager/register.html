@@ -1,33 +1,58 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block nav %}
     {% include "invitation_manager/nav.html" %}
 {%  endblock nav %}
 
 {% block content %}
-<!-- About-->
-    <section class="resume-section" id="about">
+<!-- invitation-->
+    <section class="resume-section" id="invitation">
         <div class="resume-section-content">
+            {% if content %}
+                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div id="self_image_carousel" class="carousel slide" data-bs-interval="5000" data-bs-ride="carousel" data-bs-touch="false">
+                        <div class="carousel-indicators">
+                            {% for img in content.images.all %}
+                                    <button type="button" 
+                                            data-bs-target="#self_image_carousel" 
+                                            data-bs-slide-to="{{ forloop.counter0 }}" 
+                                            {% if forloop.first %}
+                                            class="active" 
+                                            aria-current="true" 
+                                            {% endif %}
+                                            aria-label="Slide {{ forloop.counter }}">
+                                    </button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for img in content.images.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{% url 'image-file-view' img.id %}" 
+                                         class="d-block w-100" alt="{{ img.file_name }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
             <h1 class="mb-0">
-                Clarence
-                <span class="text-primary">Taylor</span>
+                Hallo <span class="text-secondary">{{ guest.display_name }}!</span>
             </h1>
             <div class="subheading mb-5">
                 3542 Berry Street · Cheyenne Wells, CO 80810 · (317) 585-8468 ·
                 <a href="mailto:name@email.com">name@email.com</a>
             </div>
-            <p class="lead mb-5">I am experienced in leveraging agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.</p>
-            <div class="social-icons">
-                <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
-                <a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
-                <a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
-                <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
+            <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                <p class="lead">I am experienced in leveraging agile frameworks to provide a robust synopsis for high
+                    level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.
+                </p>
             </div>
         </div>
     </section>
             <hr class="m-0" />
-            <!-- Experience-->
-            <section class="resume-section" id="experience">
+            <!-- info-form -->
+            <section class="resume-section" id="info-form">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Experience</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
