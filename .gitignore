@@ -10,3 +10,4 @@ settings_paths.py
 /save/
 .DS_Store
 /db.sqlite3
+/content-images/*
