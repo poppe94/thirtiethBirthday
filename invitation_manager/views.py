@@ -36,12 +36,13 @@ def invitation(request):
         content = None
 
     guest_object = Guest.objects.get(user=request.user)
-    entourage_formset_class = modelformset_factory(Entourage, form=EntourageForm, min_num=1, extra=0, max_num=3)
+    EntourageFormSet = modelformset_factory(Entourage, form=EntourageForm, min_num=1, extra=0, max_num=3)
 
     context = {
         "content": content,
+        "guest": guest_object,
         "info_form": GuestInfoForm(instance=guest_object),
-        "entourage_formset": entourage_formset_class(queryset=guest_object.entourage_set.all())
+        "entourage_formset": EntourageFormSet(queryset=guest_object.entourage_set.all())
     }
 
     return render(request, "invitation_manager/register.html", context=context)
@@ -49,9 +50,34 @@ def invitation(request):
 
 @login_required(redirect_field_name=None)
 def info_form_handler(request):
-    # implement this when using htmx
+    guest_obj = Guest.objects.get(user=request.user)
+    EntourageFormSet = modelformset_factory(Entourage, form=EntourageForm, min_num=1, extra=0, max_num=3)
+    guest_info_form = GuestInfoForm(instance=guest_obj)
+    entourage_formset = EntourageFormSet(queryset=guest_obj.entourage_set.all())
+
+    if request.method == "POST":
+        guest_info_form = GuestInfoForm(request.POST, instance=guest_obj)
+        entourage_formset = EntourageFormSet(request.POST)
+
+        if "cancel" in request.POST:
+            guest_obj.reset()
+            guest_info_form = GuestInfoForm(instance=guest_obj)
+            entourage_formset = EntourageFormSet()
+
+        elif guest_info_form.is_valid() and entourage_formset.is_valid():
+            guest_obj = guest_info_form.save(commit=False)
+            guest_obj.visited = True
+            guest_obj.save()
+
+            entourage_instances = entourage_formset.save(commit=False)
+            for entourage in entourage_instances:
+                entourage.guest = guest_obj
+                entourage.save()
+
     context = {
-        "info_form": GuestInfoForm()
+        "guest": guest_obj,
+        "info_form": guest_info_form,
+        "entourage_formset": entourage_formset
     }
 
     return render(request, "invitation_manager/info_form.html", context=context)
@@ -60,8 +86,7 @@ def info_form_handler(request):
 """
 
 todo:
-  - new mode for location address coords? etc, to not make it public on github
-  - form handling, htmx would be to much...
+  - new model for location address coords? etc, to not make it public on github
 
   - display invite link on changelist 
 

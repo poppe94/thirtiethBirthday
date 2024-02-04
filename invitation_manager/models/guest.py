@@ -26,8 +26,7 @@ class Guest(GuestInfo):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     link_identifier = models.CharField(max_length=128, unique=True, blank=True, editable=False)
     note = models.TextField(blank=True)
-
-    visited = models.BooleanField(default=False)  # needed?
+    visited = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Gast"
@@ -52,6 +51,13 @@ class Guest(GuestInfo):
     def save(self, *args, **kwargs):
         self._set_link_identifier()
         super().save(*args, **kwargs)
+
+    def reset(self):
+        self.entourage_set.all().delete()
+        self.overnight_stay = False
+        self.food_preferences = constants.FOOD_PREFERENCES_CHOICES[0][0]
+        self.visited = False
+        self.save()
 
 
 class Entourage(GuestInfo):
