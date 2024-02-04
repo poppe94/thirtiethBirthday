@@ -63,9 +63,11 @@
                 <div class="resume-section-content">
                     <h2 class="mb-5">Location</h2>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <img src="{% url 'image-file-view' content.event.location.image.id %}" 
-                             class="rounded-5 img-fluid" 
-                             alt="{{ content.event.location.image.file_name }}">
+                        {% if content.event.location.image %}
+                            <img src="{% url 'image-file-view' content.event.location.image.id %}" 
+                                 class="rounded-5 img-fluid" 
+                                 alt="{{ content.event.location.image.file_name }}">
+                        {% endif %}
                     </div>
                     <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                         <div class="flex-grow-1">
