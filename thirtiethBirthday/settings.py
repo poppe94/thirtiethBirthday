@@ -118,7 +118,7 @@ USE_TZ = True
 ##################
 # AUTHENTICATION #
 ##################
-
+SESSION_COOKIE_AGE = 24 * 60 * 60 * 72
 LOGIN_URL = "/"
 
 # Static files (CSS, JavaScript, Images)

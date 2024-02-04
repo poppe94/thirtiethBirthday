@@ -11,7 +11,7 @@
         <div class="resume-section-content">
             {% if content %}
                 <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div id="self_image_carousel" class="carousel slide" data-bs-interval="5000" data-bs-ride="carousel" data-bs-touch="false">
+                    <div id="self_image_carousel" class="carousel rounded-5 slide" data-bs-interval="5000" data-bs-ride="carousel" data-bs-touch="false">
                         <div class="carousel-indicators">
                             {% for img in content.images.all %}
                                     <button type="button" 
@@ -39,11 +39,12 @@
             <h1 class="mb-0">
                 Hallo <span class="text-secondary">{{ guest.display_name }}!</span>
             </h1>
-            <div class="subheading mb-5">
-                hiermit möchte ich dich gerne zu meinem 30. Geburtstag einladen.
-            </div>
+            <div class="subheading mb-5">{{ content.subheader|safe }}</div>
             <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                <p class="lead">### text hier ###</p>
+                <div class="flex-grow-1">
+                    <div><p class="lead">{{ content.intro_text|safe }}</p></div>
+                    <div><p class="lead">Stattfinden wird die Feier am <span class="text-secondary">{{ content.event.date }} um {{ content.event.time }}</span>.</p></div>
+                </div>
             </div>
         </div>
     </section>
@@ -52,7 +53,7 @@
             <section class="resume-section" id="info-form">
                 <div class="resume-section-content">
                     <h2 >Deine Infos</h2>
-                    <p class="mb-5">Damit jeder auch verpflegt ist, würde ich hier ein paar Informationen von euch abfragen. Bitte tragt auch die Wünsche eurer Begleitung ein.</p>
+                    <p class="mb-5">Damit jeder auch verpflegt ist, möchte ich hier ein paar Informationen von euch abfragen. Bitte tragt auch die Wünsche eurer Begleitung ein.</p>
                     {% include 'invitation_manager/info_form.html' %}
                 </div>
             </section>
@@ -61,24 +62,21 @@
             <section class="resume-section" id="location">
                 <div class="resume-section-content">
                     <h2 class="mb-5">Location</h2>
-                        <h3 class="mb-0">Sektion in arbeit...</h3>
-{#                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">#}
-{#                        <div class="flex-grow-1">#}
-{#                            <h3 class="mb-0">University of Colorado Boulder</h3>#}
-{#                            <div class="subheading mb-3">Bachelor of Science</div>#}
-{#                            <div>Computer Science - Web Development Track</div>#}
-{#                            <p>GPA: 3.23</p>#}
-{#                        </div>#}
-{#                        <div class="flex-shrink-0"><span class="text-primary">August 2006 - May 2010</span></div>#}
-{#                    </div>#}
-{#                    <div class="d-flex flex-column flex-md-row justify-content-between">#}
-{#                        <div class="flex-grow-1">#}
-{#                            <h3 class="mb-0">James Buchanan High School</h3>#}
-{#                            <div class="subheading mb-3">Technology Magnet Program</div>#}
-{#                            <p>GPA: 3.56</p>#}
-{#                        </div>#}
-{#                        <div class="flex-shrink-0"><span class="text-primary">August 2002 - May 2006</span></div>#}
-{#                    </div>#}
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <img src="{% url 'image-file-view' content.event.location.image.id %}" 
+                             class="rounded-5 img-fluid" 
+                             alt="{{ content.event.location.image.file_name }}">
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <div><p class="lead">{{ content.event.location.text|safe }}</p></div>
+                            <div class="subheading mb-3">{{ content.event.location.address }}</div>
+                            <div><p>{{ content.event.location.arrival_description|safe }}</p></div>
+                            <div><a href="{{ content.event.location.get_google_maps_link }}" target="_blank">Route via Google Maps 
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-right" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z"/></svg></span>
+                            </a></div>
+                        </div>
+                    </div>
                 </div>
             </section>
             <hr class="m-0" />

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 from .forms.admin import GuestAdminForm
-from .models.content import Content, ImageFile
+from .models.content import Content, Event, ImageFile, Location
 from .models.guest import Guest, Entourage
 
 
@@ -32,15 +32,9 @@ class GuestAdmin(admin.ModelAdmin):
         return '-'
 
 
-class ImageFileInline(admin.TabularInline):
-    model = ImageFile
-    extra = 1
-
-
-class ContentAdmin(admin.ModelAdmin):
-    inlines = [ImageFileInline]
-
-
 # Register your models here.
 admin.site.register(Guest, GuestAdmin)
-admin.site.register(Content, ContentAdmin)
+admin.site.register(Content)
+admin.site.register(ImageFile)
+admin.site.register(Location)
+admin.site.register(Event)

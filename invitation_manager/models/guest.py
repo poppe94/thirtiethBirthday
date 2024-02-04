@@ -59,6 +59,9 @@ class Guest(GuestInfo):
         self.visited = False
         self.save()
 
+    def wants_overnight_stay(self):
+        return self.entourage_set.filter(overnight_stay=True).exists() or self.overnight_stay
+
 
 class Entourage(GuestInfo):
     guest = models.ForeignKey(Guest, on_delete=models.CASCADE)

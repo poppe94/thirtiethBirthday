@@ -95,4 +95,9 @@
             </div>
         </div>
     </div>
+    <div class="d-flex flex-column justify-content-between mb-3">
+        {% if guest.wants_overnight_stay %}
+            <p class="text-danger lead">Zur Information: Die Zahl der Gästezimmer ist begrenzt, du solltest eigene Schlafmöglichkeiten, wie eine Luftmatratze oder Ähnliches dabei haben. Zelten wäre auch eine Möglichkeit.</p>
+        {% endif %}
+    </div>
 </form>
