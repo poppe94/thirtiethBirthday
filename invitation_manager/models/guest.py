@@ -26,6 +26,7 @@ class Guest(GuestInfo):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     link_identifier = models.CharField(max_length=128, unique=True, blank=True, editable=False)
     note = models.TextField(blank=True)
+    # true when info-form was filled, naming is meh
     visited = models.BooleanField(default=False)
 
     class Meta:
