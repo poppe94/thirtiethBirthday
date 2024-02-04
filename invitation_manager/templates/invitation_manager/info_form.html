@@ -1,0 +1,84 @@
+<form id="info-form" method="post" class="">
+    {% csrf_token %}
+    <div class="d-flex flex-column flex-md-row justify-content-start mb-5 align-items-center">
+        <div class="row g-3 mb-3 align-items-center">
+            <label for="{{ info_form.food_preferences.id_for_label }}" 
+                   class="col-auto">{{ info_form.food_preferences.label }}:</label>
+            <div class="col-auto me-3">
+                <select id="{{ info_form.food_preferences.id_for_label }}" 
+                        name="{{ info_form.food_preferences.name }}"
+                        class="form-select" 
+                        aria-label="Default select example">
+                    {% for value, label in info_form.fields.food_preferences.choices %}
+                        <option value="{{ value }}" 
+                            {% if info_form.food_preferences.value == value %}
+                                selected="selected"
+                            {% endif %}
+                            >{{ label }}</option>
+                        {% endfor %}
+                </select>
+            </div>
+            <div class="col-auto form-check form-switch">
+                <label class="form-check-label" 
+                       for="{{ info_form.overnight_stay.id_for_label }}">
+                    {{ info_form.overnight_stay.label }}
+                </label>
+                {{ info_form.overnight_stay }}
+            </div>
+        </div>
+    </div>
+    <div class="subheading mb-3">
+        Infos zur Begleitung:
+    </div>
+    {{ entourage_formset.management_form }}
+    {% for form in entourage_formset %}
+        <div class="d-flex flex-column flex-md-row justify-content-start mb-5 align-items-center">
+            <div class="row g-3 mb-3 align-items-center">
+                <label for="{{ form.display_name.id_for_label }}" 
+                       class="col-auto">{{ form.display_name.label }}:</label>
+                <div class="col-auto me-3">
+                    {{ form.display_name }}
+                </div>
+                <label for="{{ form.food_preferences.id_for_label }}" 
+                       class="col-auto">{{ form.food_preferences.label }}:</label>
+                <div class="col-auto me-3">
+                    <select id="{{ form.food_preferences.id_for_label }}"
+                            name="{{ form.food_preferences.name }}"
+                            class="form-select" 
+                            aria-label="Default select example">
+                        {% for value, label in form.fields.food_preferences.choices %}
+                            <option value="{{ value }}" 
+                                {% if form.food_preferences.value == value %}
+                                    selected="selected"
+                                {% endif %}
+                                >{{ label }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
+                <div class="col-auto form-check form-switch">
+                    <label class="form-check-label" 
+                           for="{{ form.overnight_stay.id_for_label }}">
+                        {{ form.overnight_stay.label }}
+                    </label>
+                    {{ form.overnight_stay }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="d-flex flex-column justify-content-between mb-5">
+        <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Leave a comment here" 
+                      id="{{ info_form.note.id_for_label }}"
+                      name="{{ info_form.note.name }}"
+                      style="height: 100px">{{ info_form.note.value }}</textarea>
+            <label for="{{ info_form.note.id_for_label }}">{{ info_form.note.label }}</label>
+        </div>
+        <div class="col text-end">
+            <button class="btn btn-secondary">
+{#                <span id="content-input-asdasd-spinner" class="spinner-border spinner-border-sm"#}
+{#                      aria-hidden="true"></span>#}
+                <span role="status">Speichern und Zusagen</span>
+            </button>
+        </div>
+    </div>
+</form>

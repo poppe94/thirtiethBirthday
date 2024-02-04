@@ -14,7 +14,7 @@ class GuestAdminForm(forms.ModelForm):
     def clean_display_name(self):
         display_name = self.cleaned_data['display_name']
 
-        if User.objects.filter(username=display_name).exists():
+        if not self.instance.id and User.objects.filter(username=display_name).exists():
             raise forms.ValidationError("Dieser Benutzername ist bereits vergeben.")
 
         return display_name

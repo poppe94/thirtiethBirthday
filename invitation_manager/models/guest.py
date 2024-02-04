@@ -10,12 +10,12 @@ from invitation_manager import constants
 
 
 class GuestInfo(models.Model):
+    display_name = models.CharField(max_length=128, blank=True)
     overnight_stay = models.BooleanField(default=False)
     food_preferences = models.CharField(
         choices=constants.FOOD_PREFERENCES_CHOICES,
-        default=constants.FOOD_PREFERENCES_CHOICES[0],
+        default=constants.FOOD_PREFERENCES_CHOICES[0][0],
         max_length=64,
-        blank=True
     )
 
     class Meta:
@@ -23,7 +23,6 @@ class GuestInfo(models.Model):
 
 
 class Guest(GuestInfo):
-    display_name = models.CharField(max_length=128, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     link_identifier = models.CharField(max_length=128, unique=True, blank=True, editable=False)
     note = models.TextField(blank=True)

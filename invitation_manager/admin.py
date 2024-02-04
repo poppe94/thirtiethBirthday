@@ -26,7 +26,10 @@ class GuestAdmin(admin.ModelAdmin):
         super(GuestAdmin, self).save_model(request, obj, form, change)
 
     def link_identifier_url(self, obj):
-        return reverse("link-identifier-auth", args=(obj.link_identifier,))
+        if obj.link_identifier:
+            return reverse("link-identifier-auth", args=(obj.link_identifier,))
+
+        return '-'
 
 
 class ImageFileInline(admin.TabularInline):
