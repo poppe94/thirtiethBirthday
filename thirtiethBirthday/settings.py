@@ -30,7 +30,7 @@ except FileNotFoundError:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['geburtstag-poppe.de', 'cpoppe94.eu.pythonanywhere.com', 'localhost']
+ALLOWED_HOSTS = ['geburtstag-poppe.de', '168.119.101.93', 'localhost']
 
 # Application definition
 INSTALLED_APPS = [
