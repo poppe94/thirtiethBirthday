@@ -16,6 +16,7 @@ class GuestAdmin(admin.ModelAdmin):
     inlines = [EntourageInline]
     readonly_fields = ['link_identifier_url']
     exclude = ['user', 'link_identifier']
+    list_display = ['display_name', 'food_preferences', 'overnight_stay']
     form = GuestAdminForm
 
     def save_model(self, request, obj, form, change):
