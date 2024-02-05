@@ -11,7 +11,7 @@
         <div class="resume-section-content">
             {% if content %}
                 <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div id="self_image_carousel" class="carousel rounded-5 slide" data-bs-interval="5000" data-bs-ride="carousel" data-bs-touch="false">
+                    <div id="self_image_carousel" class="carousel rounded-5 slide" data-bs-interval="5000" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             {% for img in content.images.all %}
                                     <button type="button" 
@@ -33,6 +33,14 @@
                                 </div>
                             {% endfor %}
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
             {% endif %}
