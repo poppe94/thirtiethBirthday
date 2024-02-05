@@ -33,8 +33,13 @@ class GuestAdmin(admin.ModelAdmin):
         return '-'
 
 
+class EntourageAdmin(admin.ModelAdmin):
+    list_display = ['display_name', 'food_preferences', 'overnight_stay']
+
+
 # Register your models here.
 admin.site.register(Guest, GuestAdmin)
+admin.site.register(Entourage, EntourageAdmin)
 admin.site.register(Content)
 admin.site.register(ImageFile)
 admin.site.register(Location)
