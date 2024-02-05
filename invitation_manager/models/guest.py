@@ -27,7 +27,12 @@ class Guest(GuestInfo):
     link_identifier = models.CharField(max_length=128, unique=True, blank=True, editable=False)
     note = models.TextField(blank=True)
     # true when info-form was filled, naming is meh
-    visited = models.BooleanField(default=False)
+    visited_on = models.DateTimeField(blank=True, null=True)
+    confirmed = models.BooleanField(default=False)
+    confirmed_on = models.DateTimeField(blank=True, null=True)
+
+    cancelled_on = models.DateTimeField(blank=True, null=True)
+    cancelled = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Gast"
@@ -57,7 +62,7 @@ class Guest(GuestInfo):
         self.entourage_set.all().delete()
         self.overnight_stay = False
         self.food_preferences = constants.FOOD_PREFERENCES_CHOICES[0][0]
-        self.visited = False
+        self.confirmed = False
         self.save()
 
     def wants_overnight_stay(self):

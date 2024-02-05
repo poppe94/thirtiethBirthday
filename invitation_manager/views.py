@@ -1,4 +1,6 @@
-from django.forms import BaseModelFormSet, formset_factory, modelformset_factory
+import datetime
+
+from django.forms import modelformset_factory
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
@@ -24,6 +26,9 @@ def link_identifier_auth(request, link_identifier):
         return HttpResponseForbidden()
 
     login(request, guest.user)
+    if not guest.visited_on:
+        guest.visited_on = datetime.datetime.now()
+        guest.save()
 
     return redirect("invitation")
 
@@ -60,13 +65,25 @@ def info_form_handler(request):
         entourage_formset = EntourageFormSet(request.POST)
 
         if "cancel" in request.POST:
-            guest_obj.reset()
             guest_info_form = GuestInfoForm(instance=guest_obj)
             entourage_formset = EntourageFormSet()
 
+            if request.POST.get("cancel") == "True":
+                guest_obj.cancelled = True
+                guest_obj.confirmed = False
+                guest_obj.cancelled_on = datetime.datetime.now()
+                guest_obj.save()
+            else:
+                guest_obj.cancelled = False
+                guest_obj.confirmed = False
+                guest_obj.cancelled_on = None
+                guest_obj.save()
+
         elif guest_info_form.is_valid() and entourage_formset.is_valid():
             guest_obj = guest_info_form.save(commit=False)
-            guest_obj.visited = True
+            if not guest_obj.confirmed:
+                guest_obj.confirmed_on = datetime.datetime.now()
+            guest_obj.confirmed = True
             guest_obj.save()
 
             entourage_instances = entourage_formset.save(commit=False)
